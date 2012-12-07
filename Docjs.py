@@ -182,7 +182,7 @@ class DocjsParser:
         if re.match( "function", source ):
             return 'function'
 
-        match = re.match(r"new\s+([^;\(]+)")
+        match = re.match( r"new\s+([^;\(]+)", source )
         if match:
             return match.group( 1 )
 
