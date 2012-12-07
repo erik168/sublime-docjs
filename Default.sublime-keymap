@@ -1,0 +1,210 @@
+[
+    // auto insert block comment start
+    { 
+        "keys": [ "enter" ], 
+        "command": "insert_snippet", 
+        "args": { "contents": "\n* " }, 
+        "context": [
+            { 
+                "key": "setting.auto_indent", 
+                "operator": "equal", 
+                "operand": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "equal", 
+                "operand": "source.js comment.block", 
+                "match_all": true 
+            },
+            { 
+                "key": "selection_empty", 
+                "operator": "equal",
+                "operand": true,
+                "match_all": true
+            },
+            { 
+                "key": "preceding_text", 
+                "operator": "regex_contains", 
+                "operand": "^\\s+\\*", 
+                "match_all": true 
+            }
+        ]
+    },
+
+
+    // auto insert single line comment start
+    { 
+        "keys": [ "enter" ], 
+        "command": "insert_snippet", 
+        "args": { "contents": "\n// " }, 
+        "context": [
+            { 
+                "key": "setting.auto_indent", 
+                "operator": "equal", 
+                "operand": true 
+            },
+            { 
+                "key": "selection_empty", 
+                "operator": "equal", 
+                "operand": true, 
+                "match_all": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "equal", 
+                "operand": "source.js", 
+                "match_all": true 
+            },
+            { 
+                "key": "preceding_text", 
+                "operator": "regex_contains", 
+                "operand": "^\\s*//", 
+                "match_all": true 
+            }
+        ]
+    },
+
+    // shift+enter will not auto insert single line comment start
+    { 
+        "keys": [ "shift+enter" ], 
+        "command": "insert_snippet", 
+        "args": { "contents": "\n" }, 
+        "context": [
+            { 
+                "key": "setting.auto_indent", 
+                "operator": "equal", 
+                "operand": true 
+            },
+            { 
+                "key": "selection_empty", 
+                "operator": "equal", 
+                "operand": true, 
+                "match_all": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "equal", 
+                "operand": "source.js", 
+                "match_all": true 
+            },
+            { 
+                "key": "preceding_text", 
+                "operator": "regex_contains", 
+                "operand": "^\\s*//", 
+                "match_all": true 
+            }
+        ]
+    },
+
+    // auto finish block comment when met /**
+    { 
+        "keys": [ "enter" ], 
+        "command": "docjs",
+        "context": [
+            { 
+                "key": "setting.auto_indent", 
+                "operator": "equal", 
+                "operand": true 
+            },
+            { 
+                "key": "selection_empty", 
+                "operator": "equal", 
+                "operand": true, 
+                "match_all": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "equal", 
+                "operand": "source.js comment.block", 
+                "match_all": true 
+            },
+            { 
+                "key": "preceding_text", 
+                "operator": "regex_contains", 
+                "operand": "^\\s*/\\*\\*", 
+                "match_all": true
+            }
+        ]
+    },
+
+    // shortcut key to create block comment
+    { 
+        "keys": [ "ctrl+shift+/" ], 
+        "command": "docjs_add_comment",
+        "context": [
+            { 
+                "key": "setting.auto_indent", 
+                "operator": "equal", 
+                "operand": true 
+            },
+            { 
+                "key": "selection_empty", 
+                "operator": "equal", 
+                "operand": true, 
+                "match_all": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "equal", 
+                "operand": "source.js", 
+                "match_all": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "not_equal", 
+                "operand": "comment.block", 
+                "match_all": true 
+            }
+        ]
+    },
+
+    // handle next line of */
+    { 
+        "keys": [ "enter" ], 
+        "command": "docjs_deindent",
+        "context": [
+            { 
+                "key": "setting.auto_indent", 
+                "operator": "equal", 
+                "operand": true 
+            },
+            { 
+                "key": "selection_empty", 
+                "operator": "equal", 
+                "operand": true, 
+                "match_all": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "equal", 
+                "operand": "source.js", 
+                "match_all": true 
+            },
+            { 
+                "key": "preceding_text", 
+                "operator": "regex_contains", 
+                "operand": "^\\s+\\*/", 
+                "match_all": true
+            }
+        ]
+    },
+
+    // auto complete when mat @
+    { 
+        "keys": [ "@" ], 
+        "command": "docjs_tag_autocomplete",
+        "context": [
+            { 
+                "key": "setting.auto_indent", 
+                "operator": "equal", 
+                "operand": true 
+            },
+            { 
+                "key": "selector", 
+                "operator": "equal", 
+                "operand": "source.js comment.block", 
+                "match_all": true 
+            }
+        ]
+    }
+]

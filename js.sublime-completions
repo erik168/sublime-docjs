@@ -1,0 +1,21 @@
+{
+    "scope": "source.js comment.block.documentation",
+    "completions":
+    [
+        { "trigger" : "@author",  "contents": "@author ${1:name}(${2:email})"},
+        { "trigger" : "@constructor",  "contents": "@constructor"},
+        { "trigger" : "@const",  "contents": "@const"},
+        { "trigger" : "@event",  "contents": "@event ${1:[class#eventName]}"},
+        { "trigger" : "@extends",  "contents": "@extends ${1:[super class]}"},
+        { "trigger" : "@file",  "contents": "@file ${1:[description]}"},
+        { "trigger" : "@inner",  "contents": "@inner"},
+        { "trigger" : "@lends",  "contents": "@lends ${1:[class.prototype or class#]}"},
+        { "trigger" : "@namespace",  "contents": "@namespace"},
+        { "trigger" : "@param",  "contents": "@param {${1:[type]}} ${2:[name]} ${3:[description]}"},
+        { "trigger" : "@public",  "contents": "@public"},
+        { "trigger" : "@private",  "contents": "@private"},
+        { "trigger" : "@protected",  "contents": "@protected"},
+        { "trigger" : "@return",  "contents": "@return {${1:[type]}} ${2:[description]}"},
+        { "trigger" : "@type",  "contents": "@type {${1:[type]}}"}
+    ]
+}
