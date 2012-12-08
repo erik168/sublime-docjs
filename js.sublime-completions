@@ -9,6 +9,7 @@
         { "trigger" : "@extends",  "contents": "@extends ${1:[super class]}"},
         { "trigger" : "@file",  "contents": "@file ${1:[description]}"},
         { "trigger" : "@inner",  "contents": "@inner"},
+        { "trigger" : "@ignore",  "contents": "@ignore"},
         { "trigger" : "@lends",  "contents": "@lends ${1:[class.prototype or class#]}"},
         { "trigger" : "@namespace",  "contents": "@namespace"},
         { "trigger" : "@param",  "contents": "@param {${1:[type]}} ${2:[name]} ${3:[description]}"},
