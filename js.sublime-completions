@@ -2,20 +2,25 @@
     "scope": "source.js comment.block.documentation",
     "completions":
     [
-        { "trigger" : "@author",  "contents": "@author ${1:name}(${2:email})"},
+        { "trigger" : "@author",  "contents": "@author ${1:name}${2: <${3:email}>}"},
         { "trigger" : "@constructor",  "contents": "@constructor"},
         { "trigger" : "@const",  "contents": "@const"},
-        { "trigger" : "@event",  "contents": "@event ${1:[class#eventName]}"},
-        { "trigger" : "@extends",  "contents": "@extends ${1:[super class]}"},
+        { "trigger" : "@event",  "contents": "@event ${1:${2:module:}${3:[class#eventName]}}"},
+        { "trigger" : "@example",  "contents": "@example"},
+        { "trigger" : "@extends",  "contents": "@extends ${1:${2:module:}${3:[super class]}}"},
+        { "trigger" : "@exports", "contents": "@exports ${1:[moduleName]}"},
         { "trigger" : "@file",  "contents": "@file ${1:[description]}"},
+        { "trigger" : "@fires",  "contents": "@fires ${1:${2:module:}${3:[class#eventName]}}"},
         { "trigger" : "@inner",  "contents": "@inner"},
         { "trigger" : "@ignore",  "contents": "@ignore"},
         { "trigger" : "@lends",  "contents": "@lends ${1:[class.prototype or class#]}"},
+        { "trigger" : "@module",  "contents": "@module ${1:[moduleName]}"},
         { "trigger" : "@namespace",  "contents": "@namespace"},
         { "trigger" : "@param",  "contents": "@param {${1:[type]}} ${2:[name]} ${3:[description]}"},
         { "trigger" : "@public",  "contents": "@public"},
         { "trigger" : "@private",  "contents": "@private"},
         { "trigger" : "@protected",  "contents": "@protected"},
+        { "trigger" : "@requires",  "contents": "@requires ${1:[moduleName]}"},
         { "trigger" : "@return",  "contents": "@return {${1:[type]}} ${2:[description]}"},
         { "trigger" : "@type",  "contents": "@type {${1:[type]}}"}
     ]
