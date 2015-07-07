@@ -2,7 +2,7 @@
     "scope": "source.js comment.block.documentation",
     "completions":
     [
-        { "trigger" : "@author",  "contents": "@author ${1:name}${2: <${3:email}>}"},
+        { "trigger" : "@author",  "contents": "@author ${1:name}${2:[${3:email}]}"},
         { "trigger" : "@constructor",  "contents": "@constructor"},
         { "trigger" : "@const",  "contents": "@const"},
         { "trigger" : "@event",  "contents": "@event ${1:${2:module:}${3:[class#eventName]}}"},
