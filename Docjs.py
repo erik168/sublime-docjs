@@ -45,7 +45,7 @@ class DocjsParser:
                 'type': type,
                 'name': name
             }
-            
+
             return self.getAssignComment( info )
 
         return None
@@ -53,7 +53,7 @@ class DocjsParser:
     def parseStrProp( self, source ):
         regexp = r"\s*\[?\s*['\"]([^'\"]+)['\"]\s*\]?\s*:\s*([^;]+)"
         match = re.match( regexp, source )
-        
+
         if match:
             val = match.group( 2 )
             name = match.group( 1 )
@@ -68,7 +68,7 @@ class DocjsParser:
                 'type': type,
                 'name': name
             }
-            
+
             return self.getAssignComment( info )
 
         return None
@@ -119,12 +119,12 @@ class DocjsParser:
             return self.getAssignComment( info )
 
     def parseVar( self, source ):
-        regexp = r"(\s*)var\s+(" + INDENTIFIER + r")\s*=\s*([^;]+);?"
+        regexp = r"(\s*)(var|let|const)\s+(" + INDENTIFIER + r")\s*=\s*([^;]+);?"
         match = re.search( regexp, source )
-        
+
         if match:
-            val = match.group( 3 )
-            name = match.group( 2 )
+            val = match.group( 4 )
+            name = match.group( 3 )
             head = match.group( 1 )
             type = self.guessType( val )
             info = {
@@ -133,11 +133,11 @@ class DocjsParser:
             }
 
             if type == 'function':
-                return self.parseFunctionExpr( source, name )
+                return self.parseFunctionExpr( val, name )
 
             if len( head ) == 0 and type == 'Object':
                 info[ 'namespace' ] = 1
-            elif re.match( r"[A-Z_]+$", name ):
+            elif match.group( 2 ) == 'const' or re.match( r"[A-Z_]+$", name ):
                 info[ 'const' ] = 1
 
             return self.getAssignComment( info )
@@ -163,8 +163,7 @@ class DocjsParser:
     def guessType( self, source ):
         if re.match( "['\"]", source ):
             return "string"
-
-        if source == 'true' or source == 'false':
+        if source == 'true' or source == 'false' or source[0] == '!' or re.match( r"^\s*Boolean\([^\)]*\)", source):
             return 'boolean'
 
         if re.match( "[0-9]+", source ):
@@ -179,7 +178,7 @@ class DocjsParser:
         if re.match( "/[^/]", source ):
             return "RegExp"
 
-        if re.match( "function", source ):
+        if re.match( "function", source ) or re.match( r"(\(.*?\)|[^\(\)]+)\s*=>", source ):
             return 'function'
 
         match = re.match( r"new\s+([^;\(]+)", source )
@@ -196,6 +195,10 @@ class DocjsParser:
         regexp = r"function\s*\(([^\)]*)"
 
         match = re.search( regexp, source )
+
+        if not match:
+            match = re.search( r"\(?([^\(\)]*?)\)?\s*=>", source )
+
         if match:
             return self.getFunctionComment( {
                 "type": "function",
@@ -206,14 +209,14 @@ class DocjsParser:
         return None
 
     def parseFunctionDeclare( self, source ):
-        declaration = r"^\s*function\s+(" + INDENTIFIER + r")\s*\(([^\)]*)\s*"
-        match = re.match( declaration, source )
+        regexp = r"^(export(?:\s*default)?)?(\s*\basync)?\s*function\s+(" + INDENTIFIER + r")\s*\(([^\)]*)\s*"
+        match = re.match( regexp, source )
         functionInfo = None
         if match:
             return self.getFunctionComment( {
                 "type": "function",
-                "name": match.group( 1 ),
-                "args": self.parseArgs( match.group( 2 ) )
+                "name": match.group( 3 ),
+                "args": self.parseArgs( match.group( 4 ) )
             } )
 
         return None
@@ -243,7 +246,7 @@ class DocjsParser:
 
         if returnTag > 0:
             text.append( '@return {${%d:[type]}} ${%d:[return description]}' % ( index, index + 1 ) )
-        
+
         return '\n * '.join( text ) + '\n */'
 
 class DocjsCommand( sublime_plugin.TextCommand ):
@@ -268,7 +271,7 @@ class DocjsAddCommentCommand( sublime_plugin.TextCommand ):
         view.run_command( 'insert', { "characters": "/**\n" } )
         view.run_command( 'move', { "by": "lines", "forward": False } )
         view.run_command( 'move_to', { 'to': 'eol' } )
-        
+
         view.run_command( 'docjs' )
 
 class DocjsTagAutocompleteCommand( sublime_plugin.TextCommand ):
@@ -284,8 +287,8 @@ class DocjsDeindentCommand( sublime_plugin.TextCommand ):
     def run( self, edit ):
         view = self.view
         lineRegion = view.line( view.sel()[ 0 ].end())
-        view.insert( 
-            edit, 
-            lineRegion.end(), 
+        view.insert(
+            edit,
+            lineRegion.end(),
             re.sub( "^(\\s*)\\s\\*/.*", "\n\\1", view.substr( lineRegion ) )
         )
