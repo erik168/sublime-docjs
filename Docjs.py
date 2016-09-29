@@ -163,8 +163,7 @@ class DocjsParser:
     def guessType( self, source ):
         if re.match( "['\"]", source ):
             return "string"
-
-        if source == 'true' or source == 'false':
+        if source == 'true' or source == 'false' or source[0] == '!' or re.match( r"^\s*Boolean\([^\)]*\)", source):
             return 'boolean'
 
         if re.match( "[0-9]+", source ):
