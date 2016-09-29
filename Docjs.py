@@ -133,7 +133,7 @@ class DocjsParser:
             }
 
             if type == 'function':
-                return self.parseFunctionExpr( source, name )
+                return self.parseFunctionExpr( val, name )
 
             if len( head ) == 0 and type == 'Object':
                 info[ 'namespace' ] = 1
@@ -179,7 +179,7 @@ class DocjsParser:
         if re.match( "/[^/]", source ):
             return "RegExp"
 
-        if re.match( "function", source ):
+        if re.match( "function", source ) or re.match( r"(\(.*?\)|[^\(\)]+)\s*=>", source ):
             return 'function'
 
         match = re.match( r"new\s+([^;\(]+)", source )
@@ -196,6 +196,10 @@ class DocjsParser:
         regexp = r"function\s*\(([^\)]*)"
 
         match = re.search( regexp, source )
+
+        if not match:
+            match = re.search( r"\(?([^\(\)]*?)\)?\s*=>", source )
+
         if match:
             return self.getFunctionComment( {
                 "type": "function",
