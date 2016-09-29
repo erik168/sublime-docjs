@@ -119,12 +119,12 @@ class DocjsParser:
             return self.getAssignComment( info )
 
     def parseVar( self, source ):
-        regexp = r"(\s*)var\s+(" + INDENTIFIER + r")\s*=\s*([^;]+);?"
+        regexp = r"(\s*)(var|let|const)\s+(" + INDENTIFIER + r")\s*=\s*([^;]+);?"
         match = re.search( regexp, source )
 
         if match:
-            val = match.group( 3 )
-            name = match.group( 2 )
+            val = match.group( 4 )
+            name = match.group( 3 )
             head = match.group( 1 )
             type = self.guessType( val )
             info = {
@@ -137,7 +137,7 @@ class DocjsParser:
 
             if len( head ) == 0 and type == 'Object':
                 info[ 'namespace' ] = 1
-            elif re.match( r"[A-Z_]+$", name ):
+            elif match.group( 2 ) == 'const' or re.match( r"[A-Z_]+$", name ):
                 info[ 'const' ] = 1
 
             return self.getAssignComment( info )
