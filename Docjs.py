@@ -209,7 +209,7 @@ class DocjsParser:
         return None
 
     def parseFunctionDeclare( self, source ):
-        regexp = r"^(export)?(\s*\basync)?\s*function\s+(" + INDENTIFIER + r")\s*\(([^\)]*)\s*"
+        regexp = r"^(export(?:\s*default)?)?(\s*\basync)?\s*function\s+(" + INDENTIFIER + r")\s*\(([^\)]*)\s*"
         match = re.match( regexp, source )
         functionInfo = None
         if match:
