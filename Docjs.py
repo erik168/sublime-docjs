@@ -209,14 +209,14 @@ class DocjsParser:
         return None
 
     def parseFunctionDeclare( self, source ):
-        regexp = r"^(?:export(?:\sasync)?)?\s*function\s+(" + INDENTIFIER + r")\s*\(([^\)]*)\s*"
+        regexp = r"^(export)?(\s*\basync)?\s*function\s+(" + INDENTIFIER + r")\s*\(([^\)]*)\s*"
         match = re.match( regexp, source )
         functionInfo = None
         if match:
             return self.getFunctionComment( {
                 "type": "function",
-                "name": match.group( 1 ),
-                "args": self.parseArgs( match.group( 2 ) )
+                "name": match.group( 3 ),
+                "args": self.parseArgs( match.group( 4 ) )
             } )
 
         return None
